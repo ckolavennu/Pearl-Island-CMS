@@ -25,12 +25,14 @@ async function verifyRequester(req, env) {
     `${env.url}/rest/v1/superadmins?id=eq.${encodeURIComponent(user.id)}&select=id`,
     {
       headers: {
-        apikey: env.serviceRole,
-        Authorization: `Bearer ${env.serviceRole}`
+        apikey: env.serviceRole
       }
     }
   );
-  if (!adminResponse.ok) throw new Error('Unable to verify superadmin access.');
+  if (!adminResponse.ok) {
+    const detail = await adminResponse.text().catch(() => '');
+    throw new Error(detail || 'Unable to verify superadmin access.');
+  }
   const admins = await adminResponse.json();
   if (!admins.length) throw new Error('Superadmin access required.');
   return user;
@@ -48,8 +50,7 @@ export default async function handler(req, res) {
 
     const listResponse = await fetch(`${env.url}/rest/v1/superadmins?select=id`, {
       headers: {
-        apikey: env.serviceRole,
-        Authorization: `Bearer ${env.serviceRole}`
+        apikey: env.serviceRole
       }
     });
     if (!listResponse.ok) throw new Error('Unable to read superadmin accounts.');
@@ -60,8 +61,7 @@ export default async function handler(req, res) {
     const deleteResponse = await fetch(`${env.url}/auth/v1/admin/users/${encodeURIComponent(userId)}`, {
       method: 'DELETE',
       headers: {
-        apikey: env.serviceRole,
-        Authorization: `Bearer ${env.serviceRole}`
+        apikey: env.serviceRole
       }
     });
 
