@@ -10,6 +10,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.js"></script>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    .topbar-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px}
+    .home-admin-btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 15px;border:1px solid #d9e0ea;border-radius:10px;background:#fff;color:#0d2e63;font-size:14px;font-weight:700;box-shadow:0 3px 12px rgba(0,0,0,.04);transition:.18s ease}
+    .home-admin-btn:hover{border-color:#0d2e63;background:#f7f9fc;transform:translateY(-1px)}
+    .home-admin-btn svg{width:18px;height:18px}
+    @media (max-width:900px){.topbar-actions{justify-self:end}.home-admin-btn{min-height:42px;padding:0 12px}}
+    @media (max-width:560px){.topbar-actions{gap:7px}.home-admin-btn{width:42px;padding:0}.home-admin-btn span{display:none}}
+  </style>
 </head>
 <body>
 
@@ -30,11 +38,17 @@
     <a href="#candidates">Our Candidates</a>
   </nav>
 
-  <button class="language-btn" type="button">
-    <i data-lucide="globe-2"></i>
-    <span>English</span>
-    <i class="chev" data-lucide="chevron-down"></i>
-  </button>
+  <div class="topbar-actions">
+    <a class="home-admin-btn" href="admin-login.html" aria-label="Superadmin Login">
+      <i data-lucide="shield-user"></i>
+      <span>Superadmin Login</span>
+    </a>
+    <button class="language-btn" type="button">
+      <i data-lucide="globe-2"></i>
+      <span>English</span>
+      <i class="chev" data-lucide="chevron-down"></i>
+    </button>
+  </div>
 </header>
 
 <main>
