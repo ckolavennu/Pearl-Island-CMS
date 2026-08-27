@@ -4,24 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Superadmin Dashboard | Pearl Island Manpower</title>
+  <link rel="icon" type="image/png" href="assets/pearl-island-mark.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.js"></script>
   <link rel="stylesheet" href="admin.css" />
+  <style>
+    .official-admin-lockup{display:flex;align-items:center;gap:9px;background:#fff;border-radius:12px;padding:8px 10px;box-shadow:0 7px 20px rgba(4,22,52,.16);width:100%;min-width:0}
+    .official-admin-mark{width:40px;height:40px;object-fit:contain;display:block;flex:0 0 auto}
+    .official-admin-copy{display:flex;flex-direction:column;gap:4px;align-items:flex-start;min-width:0;flex:1}
+    .official-admin-wordmark{display:block;width:145px;max-width:100%;height:auto}
+    .official-admin-manpower{color:#d82922;font-size:7px;font-weight:800;letter-spacing:3.3px;line-height:1;margin-left:1px}
+    .sidebar-brand.official-sidebar-brand{display:block;padding:0 8px 24px}
+    @media(max-width:1000px){.official-admin-mark{width:36px;height:36px}.official-admin-wordmark{width:118px}.official-admin-manpower{font-size:6px;letter-spacing:2.7px}.official-admin-lockup{gap:7px;padding:7px 8px}}
+  </style>
 </head>
 <body class="admin-page">
   <div class="admin-layout">
     <aside class="admin-sidebar">
-      <a class="admin-brand sidebar-brand" href="index.html">
-        <div class="brand-mark" aria-hidden="true">
-          <span class="orbit"></span>
-          <span class="p-letter">P</span>
-        </div>
-        <div>
-          <div class="brand-name">PEARL ISLAND</div>
-          <div class="brand-sub">MANPOWER</div>
-        </div>
+      <a class="admin-brand sidebar-brand official-sidebar-brand" href="index.html" aria-label="Pearl Island Manpower home">
+        <span class="official-admin-lockup">
+          <img class="official-admin-mark" src="assets/pearl-island-mark.png" alt="Pearl Island logo" />
+          <span class="official-admin-copy">
+            <img class="official-admin-wordmark" src="assets/pearl-island-wordmark.png" alt="Pearl Island" />
+            <span class="official-admin-manpower">MANPOWER</span>
+          </span>
+        </span>
       </a>
 
       <nav class="admin-nav" aria-label="Admin navigation">
