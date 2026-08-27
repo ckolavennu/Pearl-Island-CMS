@@ -48,7 +48,7 @@
           <div class="avatar">SA</div>
           <div class="account-copy">
             <strong>Superadmin</strong>
-            <span id="currentAdminEmail">admin@pearlisland.com</span>
+            <span id="currentAdminEmail">Loading...</span>
           </div>
         </div>
       </header>
@@ -68,7 +68,7 @@
             <article class="stat-card"><div class="stat-icon"><i data-lucide="users"></i></div><div><span>Total Candidates</span><strong id="statTotal">0</strong></div></article>
             <article class="stat-card"><div class="stat-icon"><i data-lucide="map-pin"></i></div><div><span>In Oman</span><strong id="statOman">0</strong></div></article>
             <article class="stat-card"><div class="stat-icon"><i data-lucide="plane"></i></div><div><span>Overseas</span><strong id="statOverseas">0</strong></div></article>
-            <article class="stat-card"><div class="stat-icon"><i data-lucide="shield-user"></i></div><div><span>Superadmins</span><strong id="statAdmins">1</strong></div></article>
+            <article class="stat-card"><div class="stat-icon"><i data-lucide="shield-user"></i></div><div><span>Superadmins</span><strong id="statAdmins">0</strong></div></article>
           </div>
 
           <div class="panel">
@@ -118,9 +118,9 @@
           <div class="security-card">
             <div class="security-illustration"><i data-lucide="shield-check"></i></div>
             <form id="passwordForm" class="stack-form">
-              <label><span>Current Password</span><input type="password" id="currentPassword" required></label>
-              <label><span>New Password</span><input type="password" id="newPassword" minlength="8" required><small>Use at least 8 characters.</small></label>
-              <label><span>Confirm New Password</span><input type="password" id="confirmPassword" minlength="8" required></label>
+              <label><span>Current Password</span><input type="password" id="currentPassword" required autocomplete="current-password"></label>
+              <label><span>New Password</span><input type="password" id="newPassword" minlength="8" required autocomplete="new-password"><small>Use at least 8 characters.</small></label>
+              <label><span>Confirm New Password</span><input type="password" id="confirmPassword" minlength="8" required autocomplete="new-password"></label>
               <div id="passwordMessage" class="form-message" hidden></div>
               <button class="admin-primary-btn" type="submit"><i data-lucide="key-round"></i>Update Password</button>
             </form>
@@ -134,22 +134,23 @@
     <div class="admin-modal large" role="dialog" aria-modal="true" aria-labelledby="candidateModalTitle">
       <div class="modal-heading"><div><span class="eyebrow">CANDIDATE PROFILE</span><h2 id="candidateModalTitle">Add Candidate</h2></div><button class="icon-button" data-close-modal="candidateModal"><i data-lucide="x"></i></button></div>
       <form id="candidateForm" class="candidate-form">
-        <input type="hidden" id="candidateEditIndex" value="">
+        <input type="hidden" id="candidateEditId" value="">
         <div class="form-grid three">
-          <label><span>Candidate ID</span><input id="candidateId" required placeholder="PII-0001"></label>
+          <label><span>Candidate ID</span><input id="candidateId" readonly placeholder="Generated automatically"></label>
           <label class="span-2"><span>Full Name</span><input id="candidateName" required></label>
           <label><span>Nationality</span><input id="candidateNationality" required></label>
-          <label><span>Age</span><input id="candidateAge" type="number" min="18" max="80" required></label>
+          <label><span>Age</span><input id="candidateAge" type="number" min="18" max="99" required></label>
           <label><span>Profession</span><input id="candidateProfession" required placeholder="Housemaid"></label>
           <label><span>Location</span><select id="candidateLocation" required><option value="IN_OMAN">In Oman</option><option value="OVERSEAS">Overseas</option></select></label>
           <label><span>Availability</span><select id="candidateStatus" required><option value="AVAILABLE">Available</option><option value="RESERVED">Reserved</option><option value="PROCESSING">Processing</option><option value="UNAVAILABLE">Unavailable</option></select></label>
-          <label><span>Salary (OMR)</span><input id="candidateSalary" type="number" min="0" step="1"></label>
+          <label><span>Salary (OMR)</span><input id="candidateSalary" type="number" min="0" step="0.01"></label>
           <label><span>Contract Period</span><input id="candidateContract" placeholder="2 Years"></label>
-          <label class="span-2"><span>Languages</span><input id="candidateLanguages" placeholder="Arabic — Moderate, English — Moderate"></label>
+          <label class="span-2"><span>Languages</span><input id="candidateLanguages" placeholder="Arabic — Moderate, English — Moderate"><small>Separate languages with commas.</small></label>
           <label class="span-3"><span>Skills</span><textarea id="candidateSkills" rows="3" placeholder="Cleaning, Washing, Ironing, Baby Care, Basic Cooking"></textarea></label>
-          <label class="span-2"><span>Candidate Picture</span><input id="candidatePhoto" type="file" accept="image/*"><small>Frontend preview only until Supabase Storage is connected.</small></label>
-          <label><span>CV PDF</span><input id="candidateCv" type="file" accept="application/pdf"><small>Stored locally only as file name for now.</small></label>
+          <label class="span-2"><span>Candidate Picture</span><input id="candidatePhoto" type="file" accept="image/jpeg,image/png,image/webp"><small>JPEG, PNG or WebP. Maximum 2 MB.</small></label>
+          <label><span>CV PDF</span><input id="candidateCv" type="file" accept="application/pdf"><small>PDF only. Maximum 3 MB.</small></label>
         </div>
+        <div id="candidateMessage" class="form-message" hidden></div>
         <div class="modal-actions"><button class="admin-secondary-btn" type="button" data-close-modal="candidateModal">Cancel</button><button class="admin-primary-btn" type="submit"><i data-lucide="save"></i>Save Candidate</button></div>
       </form>
     </div>
@@ -160,14 +161,16 @@
       <div class="modal-heading"><div><span class="eyebrow">ACCESS CONTROL</span><h2 id="adminModalTitle">Add Superadmin</h2></div><button class="icon-button" data-close-modal="adminModal"><i data-lucide="x"></i></button></div>
       <form id="adminForm" class="stack-form">
         <label><span>Email Address</span><input type="email" id="newAdminEmail" required placeholder="name@example.com"></label>
-        <label><span>Temporary Password</span><input type="password" id="newAdminPassword" minlength="8" required></label>
-        <label><span>Confirm Password</span><input type="password" id="newAdminConfirm" minlength="8" required></label>
+        <label><span>Temporary Password</span><input type="password" id="newAdminPassword" minlength="8" required autocomplete="new-password"></label>
+        <label><span>Confirm Password</span><input type="password" id="newAdminConfirm" minlength="8" required autocomplete="new-password"></label>
         <div id="adminMessage" class="form-message" hidden></div>
         <div class="modal-actions"><button class="admin-secondary-btn" type="button" data-close-modal="adminModal">Cancel</button><button class="admin-primary-btn" type="submit"><i data-lucide="user-plus"></i>Create Superadmin</button></div>
       </form>
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script src="admin.js"></script>
   <script>lucide.createIcons();</script>
 </body>
