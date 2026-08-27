@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pearl Island Manpower</title>
   <meta name="description" content="Trusted housemaid and domestic worker recruitment in Oman." />
+  <link rel="icon" type="image/png" href="assets/pearl-island-mark.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,22 +16,24 @@
     .home-admin-btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 15px;border:1px solid #d9e0ea;border-radius:10px;background:#fff;color:#0d2e63;font-size:14px;font-weight:700;box-shadow:0 3px 12px rgba(0,0,0,.04);transition:.18s ease}
     .home-admin-btn:hover{border-color:#0d2e63;background:#f7f9fc;transform:translateY(-1px)}
     .home-admin-btn svg{width:18px;height:18px}
-    @media (max-width:900px){.topbar-actions{justify-self:end}.home-admin-btn{min-height:42px;padding:0 12px}}
-    @media (max-width:560px){.topbar-actions{gap:7px}.home-admin-btn{width:42px;padding:0}.home-admin-btn span{display:none}}
+    .official-brand{display:flex;align-items:center;gap:13px;min-width:0}
+    .official-mark{width:64px;height:64px;object-fit:contain;display:block;flex:0 0 auto}
+    .official-brand-copy{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:0}
+    .official-wordmark{display:block;width:210px;max-width:100%;height:auto}
+    .official-manpower{color:#d82922;font-size:13px;font-weight:800;letter-spacing:6px;line-height:1;margin-left:3px}
+    @media (max-width:900px){.topbar-actions{justify-self:end}.home-admin-btn{min-height:42px;padding:0 12px}.official-mark{width:52px;height:52px}.official-wordmark{width:170px}.official-manpower{font-size:10px;letter-spacing:5px}}
+    @media (max-width:560px){.topbar-actions{gap:7px}.home-admin-btn{width:42px;padding:0}.home-admin-btn span{display:none}.official-brand{gap:8px}.official-mark{width:42px;height:42px}.official-wordmark{width:125px}.official-manpower{font-size:8px;letter-spacing:3.5px;margin-left:1px}}
   </style>
 </head>
 <body>
 
 <header class="topbar">
-  <a class="brand" href="#home">
-    <div class="brand-mark" aria-hidden="true">
-      <span class="orbit"></span>
-      <span class="p-letter">P</span>
-    </div>
-    <div class="brand-copy">
-      <div class="brand-name">PEARL ISLAND</div>
-      <div class="brand-sub">MANPOWER</div>
-    </div>
+  <a class="brand official-brand" href="#home" aria-label="Pearl Island Manpower home">
+    <img class="official-mark" src="assets/pearl-island-mark.png" alt="Pearl Island logo" />
+    <span class="official-brand-copy">
+      <img class="official-wordmark" src="assets/pearl-island-wordmark.png" alt="Pearl Island" />
+      <span class="official-manpower">MANPOWER</span>
+    </span>
   </a>
 
   <nav class="main-nav" aria-label="Primary navigation">
