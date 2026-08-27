@@ -48,7 +48,7 @@
             <span>Email Address</span>
             <div class="input-wrap">
               <i data-lucide="mail"></i>
-              <input type="email" id="loginEmail" placeholder="admin@pearlisland.com" required autocomplete="email" />
+              <input type="email" id="loginEmail" placeholder="name@example.com" required autocomplete="email" />
             </div>
           </label>
 
@@ -69,11 +69,13 @@
           </button>
         </form>
 
-        <p class="auth-note">Authentication will be connected to Supabase in the next phase. This screen currently provides the completed frontend workflow.</p>
+        <p class="auth-note">Secure email and password authentication is provided by Supabase Auth.</p>
       </div>
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script src="admin.js"></script>
   <script>lucide.createIcons();</script>
 </body>
