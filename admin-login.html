@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Superadmin Login | Pearl Island Manpower</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.js"></script>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body class="admin-auth-page">
+  <main class="auth-shell">
+    <section class="auth-brand-panel">
+      <a class="admin-brand" href="index.html">
+        <div class="brand-mark" aria-hidden="true">
+          <span class="orbit"></span>
+          <span class="p-letter">P</span>
+        </div>
+        <div>
+          <div class="brand-name">PEARL ISLAND</div>
+          <div class="brand-sub">MANPOWER</div>
+        </div>
+      </a>
+
+      <div class="auth-copy">
+        <span class="eyebrow">SUPERADMIN PORTAL</span>
+        <h1>Manage candidates and administrator access securely.</h1>
+        <p>Use the Pearl Island administration portal to manage candidate profiles, maintain superadmin accounts, and update account security settings.</p>
+
+        <div class="auth-feature-list">
+          <div><i data-lucide="users"></i><span>Manage candidate profiles</span></div>
+          <div><i data-lucide="user-plus"></i><span>Add other superadmins</span></div>
+          <div><i data-lucide="shield-check"></i><span>Manage account security</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="auth-form-panel">
+      <div class="auth-card">
+        <div class="auth-icon"><i data-lucide="lock-keyhole"></i></div>
+        <h2>Superadmin Login</h2>
+        <p class="auth-subtitle">Enter your administrator credentials to continue.</p>
+
+        <form id="loginForm" class="auth-form">
+          <label>
+            <span>Email Address</span>
+            <div class="input-wrap">
+              <i data-lucide="mail"></i>
+              <input type="email" id="loginEmail" placeholder="admin@pearlisland.com" required autocomplete="email" />
+            </div>
+          </label>
+
+          <label>
+            <span>Password</span>
+            <div class="input-wrap">
+              <i data-lucide="key-round"></i>
+              <input type="password" id="loginPassword" placeholder="Enter your password" required autocomplete="current-password" />
+              <button class="password-toggle" type="button" data-target="loginPassword" aria-label="Show password"><i data-lucide="eye"></i></button>
+            </div>
+          </label>
+
+          <div id="loginMessage" class="form-message" hidden></div>
+
+          <button class="admin-primary-btn full" type="submit">
+            <span>Login to Dashboard</span>
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </form>
+
+        <p class="auth-note">Authentication will be connected to Supabase in the next phase. This screen currently provides the completed frontend workflow.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="admin.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>
