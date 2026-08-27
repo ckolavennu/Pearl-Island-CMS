@@ -4,6 +4,7 @@
   const panelContent = document.getElementById('panelContent');
   const panelEmpty = document.getElementById('panelEmpty');
   const panelClose = document.getElementById('panelClose');
+  const candidatePanel = document.getElementById('candidatePanel');
 
   let candidates = [];
   let activeTab = 'oman';
@@ -12,6 +13,17 @@
   const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
   const displayStatus = value => String(value || '').toLowerCase().replace(/(^|_)([a-z])/g, (_, p, c) => `${p ? ' ' : ''}${c.toUpperCase()}`);
   const availabilityClass = status => String(status || '').toLowerCase().replace(/_/g, '-');
+
+  function setPanelState(hasCandidate) {
+    if (panelEmpty) {
+      panelEmpty.hidden = hasCandidate;
+      panelEmpty.style.display = hasCandidate ? 'none' : '';
+    }
+    if (panelContent) {
+      panelContent.hidden = !hasCandidate;
+      panelContent.style.display = hasCandidate ? '' : 'none';
+    }
+  }
 
   function photoUrl(candidate) {
     if (!candidate.photo_path) return 'assets/hero-worker.jpg';
@@ -72,8 +84,7 @@
     const salary = selectedCandidate.salary_omr == null ? 'Contact us' : `${Number(selectedCandidate.salary_omr).toLocaleString('en')} OMR`;
     const contract = selectedCandidate.contract_period || 'Contact us';
 
-    panelEmpty.hidden = true;
-    panelContent.hidden = false;
+    setPanelState(true);
     panelContent.innerHTML = `
       <div class="panel-id">${escapeHtml(selectedCandidate.candidate_code)}</div>
       <div class="panel-profile">
@@ -118,6 +129,10 @@
     document.getElementById('downloadCvButton')?.addEventListener('click', downloadSelectedCv);
     renderCandidates();
     if (window.lucide) lucide.createIcons();
+
+    if (window.matchMedia('(max-width: 1100px)').matches) {
+      candidatePanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   async function downloadSelectedCv() {
@@ -149,20 +164,19 @@
         btn.classList.toggle('active', active);
         btn.setAttribute('aria-selected', active ? 'true' : 'false');
       });
-      panelContent.hidden = true;
-      panelEmpty.hidden = false;
+      setPanelState(false);
       renderCandidates();
     });
   });
 
   panelClose?.addEventListener('click', () => {
     selectedCandidate = null;
-    panelContent.hidden = true;
-    panelEmpty.hidden = false;
+    setPanelState(false);
     renderCandidates();
   });
 
   async function load() {
+    setPanelState(false);
     candidateGrid.innerHTML = '<div class="panel-empty"><p>Loading candidates...</p></div>';
     const { data, error } = await sb
       .from('candidates')
