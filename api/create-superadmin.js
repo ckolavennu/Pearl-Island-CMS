@@ -21,16 +21,20 @@ async function verifyRequester(req, env) {
   if (!userResponse.ok) throw new Error('Invalid session.');
   const user = await userResponse.json();
 
+  // New Supabase sb_secret_ keys are API keys, not JWTs.
+  // Send the secret only in the apikey header for privileged server requests.
   const adminResponse = await fetch(
     `${env.url}/rest/v1/superadmins?id=eq.${encodeURIComponent(user.id)}&select=id`,
     {
       headers: {
-        apikey: env.serviceRole,
-        Authorization: `Bearer ${env.serviceRole}`
+        apikey: env.serviceRole
       }
     }
   );
-  if (!adminResponse.ok) throw new Error('Unable to verify superadmin access.');
+  if (!adminResponse.ok) {
+    const detail = await adminResponse.text().catch(() => '');
+    throw new Error(detail || 'Unable to verify superadmin access.');
+  }
   const admins = await adminResponse.json();
   if (!admins.length) throw new Error('Superadmin access required.');
   return user;
@@ -52,13 +56,12 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: {
         apikey: env.serviceRole,
-        Authorization: `Bearer ${env.serviceRole}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ email, password, email_confirm: true })
     });
 
-    const created = await createResponse.json();
+    const created = await createResponse.json().catch(() => ({}));
     if (!createResponse.ok) {
       return res.status(createResponse.status).json({ error: created.msg || created.message || created.error || 'Unable to create authentication account.' });
     }
@@ -70,7 +73,6 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: {
         apikey: env.serviceRole,
-        Authorization: `Bearer ${env.serviceRole}`,
         'Content-Type': 'application/json',
         Prefer: 'return=representation'
       },
@@ -81,8 +83,7 @@ export default async function handler(req, res) {
       await fetch(`${env.url}/auth/v1/admin/users/${encodeURIComponent(userId)}`, {
         method: 'DELETE',
         headers: {
-          apikey: env.serviceRole,
-          Authorization: `Bearer ${env.serviceRole}`
+          apikey: env.serviceRole
         }
       });
       const detail = await profileResponse.text();
