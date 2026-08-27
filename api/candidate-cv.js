@@ -13,8 +13,7 @@ export default async function handler(req, res) {
       `${url}/rest/v1/candidates?candidate_code=eq.${encodeURIComponent(code)}&is_published=eq.true&select=cv_path&limit=1`,
       {
         headers: {
-          apikey: serviceRole,
-          Authorization: `Bearer ${serviceRole}`
+          apikey: serviceRole
         }
       }
     );
@@ -28,7 +27,6 @@ export default async function handler(req, res) {
         method: 'POST',
         headers: {
           apikey: serviceRole,
-          Authorization: `Bearer ${serviceRole}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ expiresIn: 60 })
