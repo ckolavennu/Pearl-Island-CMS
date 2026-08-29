@@ -7,7 +7,9 @@ export default async function handler(req, res) {
 
   try {
     const code = String(req.query?.code || '').trim().toUpperCase();
-    if (!code) return res.status(400).json({ error: 'Candidate code is required.' });
+    if (!/^PII-\d{4,8}$/.test(code)) {
+      return res.status(400).json({ error: 'A valid candidate code is required.' });
+    }
 
     const candidateResponse = await fetch(
       `${url}/rest/v1/candidates?candidate_code=eq.${encodeURIComponent(code)}&is_published=eq.true&select=cv_path&limit=1`,
@@ -37,10 +39,20 @@ export default async function handler(req, res) {
 
     const raw = signed.signedURL || signed.signedUrl || signed.url;
     if (!raw) throw new Error('Supabase did not return a signed URL.');
-    const signedUrl = raw.startsWith('http') ? raw : `${url}/storage/v1${raw.startsWith('/') ? '' : '/'}${raw}`;
 
-    return res.status(200).json({ url: signedUrl });
+    const signedUrl = raw.startsWith('http')
+      ? raw
+      : `${url}/storage/v1${raw.startsWith('/') ? '' : '/'}${raw}`;
+
+    // Supabase Storage supports the `download` query parameter on signed URLs.
+    // This makes the browser download the PDF instead of attempting to preview it.
+    const separator = signedUrl.includes('?') ? '&' : '?';
+    const filename = `${code}-CV.pdf`;
+    const downloadUrl = `${signedUrl}${separator}download=${encodeURIComponent(filename)}`;
+
+    return res.status(200).json({ url: downloadUrl, filename });
   } catch (error) {
-    return res.status(500).json({ error: error.message || 'Unexpected server error.' });
+    console.error('candidate-cv:', error);
+    return res.status(500).json({ error: 'CV download is unavailable right now.' });
   }
 }
