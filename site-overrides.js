@@ -1,5 +1,6 @@
 (() => {
   const ARABIC_HERO_TITLE = 'مكتب توظيف العمالة المنزلية';
+  const CALL_NUMBER = '+968 7114 7179';
   const easternArabicDigits = /[٠-٩۰-۹]/g;
   const digitMap = {
     '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9',
@@ -25,6 +26,21 @@
     });
   }
 
+  function fixArabicCallButton() {
+    const callButton = document.querySelector('.contact-buttons a[href^="tel:"]');
+    if (!callButton || !isArabic()) return;
+
+    const currentNumber = callButton.querySelector('.pearl-call-number')?.textContent?.trim();
+    if (currentNumber === CALL_NUMBER) return;
+
+    callButton.innerHTML = `
+      <i data-lucide="phone"></i>
+      <span class="pearl-call-number" dir="ltr">${CALL_NUMBER}</span>
+    `;
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
   function applyArabicCustomizations() {
     if (!isArabic()) return;
 
@@ -32,6 +48,8 @@
     if (hero && hero.textContent.trim() !== ARABIC_HERO_TITLE) {
       hero.textContent = ARABIC_HERO_TITLE;
     }
+
+    fixArabicCallButton();
 
     // Keep customer-facing numbers in familiar 0-9 digits even when the UI is RTL.
     normalizeDigits(document.body);
@@ -46,9 +64,14 @@
       html[dir="rtl"] a[href*="wa.me/"],
       html[dir="rtl"] .candidate-id,
       html[dir="rtl"] .panel-id,
-      html[dir="rtl"] .detail-line strong {
+      html[dir="rtl"] .detail-line strong,
+      html[dir="rtl"] .pearl-call-number {
         direction: ltr;
         unicode-bidi: isolate;
+      }
+
+      html[dir="rtl"] .contact-buttons a[href^="tel:"] {
+        direction: ltr;
       }
     `;
     document.head.appendChild(style);
