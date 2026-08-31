@@ -3,10 +3,11 @@
   const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_kBIdJ9rbChMEeI0n2bqSxg_mkehHjmM';
   const WHATSAPP_NUMBER = '96897297224';
   const LANGUAGE_KEY = 'pearl-island-language';
+  const isPublicSite = Boolean(document.getElementById('candidateGrid'));
 
-  // The customer-facing site opens in Arabic for first-time visitors.
+  // Only the customer-facing site defaults to Arabic. Admin pages remain English.
   // Once a visitor explicitly switches language, their choice is remembered.
-  if (!localStorage.getItem(LANGUAGE_KEY)) {
+  if (isPublicSite && !localStorage.getItem(LANGUAGE_KEY)) {
     localStorage.setItem(LANGUAGE_KEY, 'ar');
   }
 
@@ -39,7 +40,7 @@
   }
 
   // Public-site customizations are kept separate from Supabase/i18n logic.
-  if (!document.querySelector('script[data-pearl-site-overrides]')) {
+  if (isPublicSite && !document.querySelector('script[data-pearl-site-overrides]')) {
     const overrides = document.createElement('script');
     overrides.src = 'site-overrides.js';
     overrides.async = false;
