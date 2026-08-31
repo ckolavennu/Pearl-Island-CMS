@@ -2,6 +2,13 @@
   const SUPABASE_URL = 'https://mrhigdoquocsftqaajwh.supabase.co';
   const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_kBIdJ9rbChMEeI0n2bqSxg_mkehHjmM';
   const WHATSAPP_NUMBER = '96897297224';
+  const LANGUAGE_KEY = 'pearl-island-language';
+
+  // The customer-facing site opens in Arabic for first-time visitors.
+  // Once a visitor explicitly switches language, their choice is remembered.
+  if (!localStorage.getItem(LANGUAGE_KEY)) {
+    localStorage.setItem(LANGUAGE_KEY, 'ar');
+  }
 
   if (!window.supabase) {
     throw new Error('Supabase JS failed to load.');
@@ -29,6 +36,15 @@
   if (document.body) {
     new MutationObserver(() => updateWhatsAppLinks())
       .observe(document.body, { childList: true, subtree: true });
+  }
+
+  // Public-site customizations are kept separate from Supabase/i18n logic.
+  if (!document.querySelector('script[data-pearl-site-overrides]')) {
+    const overrides = document.createElement('script');
+    overrides.src = 'site-overrides.js';
+    overrides.async = false;
+    overrides.dataset.pearlSiteOverrides = 'true';
+    document.head.appendChild(overrides);
   }
 
   // Handle CV downloads at the document capture phase so mobile browsers do not
